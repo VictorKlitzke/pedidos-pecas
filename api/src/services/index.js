@@ -1,6 +1,7 @@
 const sql = require('sqlite3').verbose();
+const path = require('path');
 
-const Path = './app.db';
+const Path = path.resolve(__dirname, './pedidos.db');
 
 const pool = new sql.Database(Path, (err) => {
   if (err) {

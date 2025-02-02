@@ -1,4 +1,6 @@
 const pool = require('../services/index');
+const bcrypt = require('bcrypt');
+const jwt = require('jsonwebtoken');
 require('dotenv').config();
 
 exports.postLogin = async (req, res) => {
@@ -16,7 +18,7 @@ exports.postLogin = async (req, res) => {
       }
 
       user.senha = user.senha.replace("$2y$", "$2a$");
-      const isPasswordValid = await bcrypt.compare(password, user.senha);
+      const isPasswordValid = bcrypt.compare(password, user.senha);
       if (!isPasswordValid) {
           return res.status(401).json({ error: "Senha incorreta" });
       }
