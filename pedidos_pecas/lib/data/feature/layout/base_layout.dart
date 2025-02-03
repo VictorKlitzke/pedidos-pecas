@@ -10,7 +10,7 @@ class BaseLayout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
-        backgroundColor: const Color.fromARGB(255, 0, 204, 51),
+        backgroundColor: const Color.fromARGB(255, 14, 21, 112),
         centerTitle: true,
         elevation: 0,
         titleTextStyle: const TextStyle(
