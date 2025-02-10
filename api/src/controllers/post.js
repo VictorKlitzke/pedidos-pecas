@@ -11,16 +11,14 @@ exports.postLogin = async (req, res) => {
   }
   try {
 
-    const [result] = pool.get("SELECT * FROM usuarios WHERE nome = ?", [username]);
+    const [result] = pool.query("SELECT * FROM usuarios WHERE nome = ?", [username]);
     if (!result || result.length === 0) {
       return res
         .status(404)
         .json({ message: 'USUÁRIO NÃO ENCONTRADO' });
     }
-    if (err) {
-      console.error("Erro na consulta ao banco:", err.message);
-      return res.status(500).json({ error: "Erro interno no servidor" });
-    }
+
+    const user = result[0];
 
     user.senha = user.senha.replace("$2y$", "$2a$");
     const isPasswordValid = bcrypt.compare(password, user.senha);

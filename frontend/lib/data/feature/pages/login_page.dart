@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:pedidos_pecas/data/core/network/auth_network.dart';
+import 'package:pedidos_pecas/data/feature/widget/components/app_colors_components.dart';
 import 'package:pedidos_pecas/data/feature/widget/components/buttons/padrao_button.dart';
+// import 'package:google_sign_in/google_sign_in.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -13,25 +15,48 @@ class _LoginPageState extends State<LoginPage> {
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
-
   bool isLoading = false;
 
-  void PostLogin(BuildContext context) async {
+  void postLogin(BuildContext context) async {
     final username = usernameController.text;
     final password = passwordController.text;
-    
-    try {
 
-      bool success = await authNetwork.postLogin(username, password);
+    if (_formKey.currentState!.validate()) {
+      setState(() => isLoading = true);
 
-      if (success) {
-        context.go('/homepage');
-      } else {}
-
-    } catch (error) {
-      print('Erro ao fazer login $error');
+      try {
+        bool success = await authNetwork.postLogin(username, password);
+        if (success) {
+          context.go('/homepage');
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('Falha no login. Verifique suas credenciais.')),
+          );
+        }
+      } catch (error) {
+        print('Erro ao fazer login: $error');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Erro ao fazer login. Tente novamente.')),
+        );
+      } finally {
+        setState(() => isLoading = false);
+      }
     }
   }
+
+  // Future<void> loginWithGoogle() async {
+  //   try {
+  //     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+  //     if (googleUser != null) {
+  //       context.go('/homepage');
+  //     }
+  //   } catch (error) {
+  //     print('Erro ao fazer login com Google: $error');
+  //     ScaffoldMessenger.of(context).showSnackBar(
+  //       SnackBar(content: Text('Erro ao conectar com o Google.')),
+  //     );
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,7 +89,7 @@ class _LoginPageState extends State<LoginPage> {
                         size: 64.0,
                         color: Colors.blue.shade800,
                       ),
-                      SizedBox(height: 24.0),
+                      SizedBox(height: 16.0),
                       Text(
                         'Login',
                         style: TextStyle(
@@ -85,7 +110,7 @@ class _LoginPageState extends State<LoginPage> {
                         ),
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Por favor, insira seu username';
+                            return 'Por favor, insira seu nome';
                           }
                           return null;
                         },
@@ -110,12 +135,42 @@ class _LoginPageState extends State<LoginPage> {
                       ),
                       SizedBox(height: 24.0),
                       PadraoButton(
-                        text: 'Login', 
-                        onPressed: () {
-                          PostLogin(context);
-                        }, 
-                        textColor: Colors.white, 
-                        backgroundColor: Colors.blue),
+                        onPressed: isLoading ? null : () => postLogin(context),
+                        text: 'Entrar',
+                        textColor: Colors.white,
+                        backgroundColor: AppColorsComponents.primary,
+                        fontSize: 18,
+                        padding: EdgeInsets.symmetric(horizontal: 37, vertical: 12),
+                        textAlign: Alignment.center,
+                        isLoading: isLoading,
+                      ),
+                      SizedBox(height: 16.0),
+                      GestureDetector(
+                        // onTap: loginWithGoogle,
+                        child: Container(
+                          width: double.infinity,
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(8),
+                            border: Border.all(color: Colors.grey),
+                          ),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Image.asset(
+                                'assets/google_logo.png',
+                                height: 24,
+                              ),
+                              SizedBox(width: 8),
+                              Text(
+                                'Entrar com Google',
+                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),
