@@ -1,14 +1,19 @@
-const sql = require('sqlite3').verbose();
-const path = require('path');
+const sql = require('mysql2')
+require('dotenv').config();
 
-const Path = path.resolve(__dirname, './pedidos.db');
+const pool = sql.createConnection({
+  host: process.env.DB_HOST,      
+  user: process.env.DB_USER,          
+  password: process.env.DB_PASSWORD,  
+  database: process.env.DB_DATABASE
+})
 
-const pool = new sql.Database(Path, (err) => {
+pool.connect((err) => {
   if (err) {
-    console.error('Erro ao conectar ao banco de dados:', err.message);
-  } else {
-    console.log('Conectado ao banco de dados SQLite.');
+    console.error('Erro ao conectar ao banco de dados:', err.stack);
+    return;
   }
+  console.log('Conectado ao banco de dados MySQL!');
 });
 
 module.exports = pool;

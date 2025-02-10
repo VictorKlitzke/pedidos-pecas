@@ -11,34 +11,37 @@ exports.postLogin = async (req, res) => {
   }
   try {
 
-    pool.get("SELECT * FROM usuarios WHERE nome = ?", [username], async (err, user) => {
-      if (err) {
-          console.error("Erro na consulta ao banco:", err.message);
-          return res.status(500).json({ error: "Erro interno no servidor" });
-      }
+    const [result] = pool.get("SELECT * FROM usuarios WHERE nome = ?", [username]);
+    if (!result || result.length === 0) {
+      return res
+        .status(404)
+        .json({ message: 'USUÁRIO NÃO ENCONTRADO' });
+    }
+    if (err) {
+      console.error("Erro na consulta ao banco:", err.message);
+      return res.status(500).json({ error: "Erro interno no servidor" });
+    }
 
-      user.senha = user.senha.replace("$2y$", "$2a$");
-      const isPasswordValid = bcrypt.compare(password, user.senha);
-      if (!isPasswordValid) {
-          return res.status(401).json({ error: "Senha incorreta" });
-      }
-      const token = jwt.sign({ id: user.id }, process.env.TOKEN, { expiresIn: "3h" });
+    user.senha = user.senha.replace("$2y$", "$2a$");
+    const isPasswordValid = bcrypt.compare(password, user.senha);
+    if (!isPasswordValid) {
+      return res.status(401).json({ error: "Senha incorreta" });
+    }
+    const token = jwt.sign({ id: user.id }, process.env.TOKEN, { expiresIn: "3h" });
 
-      res.cookie('token', token, {
-          httpOnly: true,
-          secure: false,
-          sameSite: 'lax',
-          maxAge: 18000000
-      });
+    res.cookie('token', token, {
+      httpOnly: true,
+      secure: false,
+      sameSite: 'lax',
+      maxAge: 18000000
+    });
 
-      return res.json({
-          authorization: true,
-          token: token,
-          message: "Login realizado com sucesso",
-          UserId: user.id
-      });
-  });
-
+    return res.json({
+      authorization: true,
+      token: token,
+      message: "Login realizado com sucesso",
+      UserId: user.id
+    });
   } catch (error) {
     return res.status(500).send({ message: error.message });
   }
