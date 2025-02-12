@@ -4,6 +4,7 @@ import 'package:pedidos_pecas/data/core/network/auth_network.dart';
 import 'package:pedidos_pecas/data/feature/widget/components/app_colors_components.dart';
 import 'package:pedidos_pecas/data/feature/widget/components/buttons/padrao_button.dart';
 // import 'package:google_sign_in/google_sign_in.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -145,29 +146,19 @@ class _LoginPageState extends State<LoginPage> {
                         isLoading: isLoading,
                       ),
                       SizedBox(height: 16.0),
-                      GestureDetector(
-                        // onTap: loginWithGoogle,
-                        child: Container(
-                          width: double.infinity,
-                          padding: EdgeInsets.symmetric(vertical: 12),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
+                      ElevatedButton.icon(
+                        onPressed: () => {print('')},
+                        icon: FaIcon(FontAwesomeIcons.google, color: Colors.white),
+                        label: Text(
+                          'Entrar com Google',
+                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                        ),
+                        style: ElevatedButton.styleFrom(
+                          foregroundColor: Colors.white,
+                          backgroundColor: Colors.red, // Cor do botão do Google
+                          padding: EdgeInsets.symmetric(vertical: 12, horizontal: 20),
+                          shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(8),
-                            border: Border.all(color: Colors.grey),
-                          ),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Image.asset(
-                                'assets/google_logo.png',
-                                height: 24,
-                              ),
-                              SizedBox(width: 8),
-                              Text(
-                                'Entrar com Google',
-                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
-                              ),
-                            ],
                           ),
                         ),
                       ),
