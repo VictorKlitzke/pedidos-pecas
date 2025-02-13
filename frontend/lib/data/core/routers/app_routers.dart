@@ -5,7 +5,7 @@ import 'package:pedidos_pecas/data/feature/pages/login_page.dart';
 
 final GoRouter appRouters = GoRouter(
   routes: [
-    GoRoute(path: '/', builder: (context, state) => LoginPage()),
+    GoRoute(path: '/', builder: (context, state) => BaseLayout(body: HomePage())),
     GoRoute(path: '/homepage', builder: (context, state) => BaseLayout(body: HomePage())),
   ]
 );

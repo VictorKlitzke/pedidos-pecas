@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pedidos_pecas/data/feature/pages/navigation_page.dart';
 
 class BaseLayout extends StatelessWidget {
   final Widget body;
@@ -33,7 +34,7 @@ class BaseLayout extends StatelessWidget {
       body: Column(
         children: [
           Expanded(child: body),
-          // const ModernNavigationBar(),
+          NavigationPage(),
         ],
       ),
     );
