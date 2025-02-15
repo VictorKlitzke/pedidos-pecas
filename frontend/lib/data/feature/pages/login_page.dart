@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:pedidos_pecas/data/core/network/auth_network.dart';
+import 'package:pedidos_pecas/data/core/network/google_api_network.dart';
 import 'package:pedidos_pecas/data/feature/widget/components/app_colors_components.dart';
 import 'package:pedidos_pecas/data/feature/widget/components/buttons/padrao_button.dart';
 
@@ -12,14 +13,30 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> {
   final AuthNetwork authNetwork = AuthNetwork();
+  final GoogleAuthService googleAuthService = GoogleAuthService();
   final _formKey = GlobalKey<FormState>();
   final usernameController = TextEditingController();
   final passwordController = TextEditingController();
   bool isLoading = false;
 
+  void postGoogle(BuildContext context) async {
+    final account = await googleAuthService.signInWithGoogle();
+    if (account != null) {
+      print('Logado como: ${account.displayName}');
+      print('Email: ${account.email}');
+      print('Foto: ${account.photoUrl}');
+      context.go('/homepage');
+    }
+  }
+
   void postLogin(BuildContext context) async {
     final username = usernameController.text;
     final password = passwordController.text;
+
+    if (username != null || password != null) {
+
+    }
+
     try {
       bool success = await authNetwork.postLogin(username, password);
       if (success) {
@@ -119,7 +136,7 @@ class _LoginPageState extends State<LoginPage> {
                       SizedBox(height: 16.0),
                       ElevatedButton.icon(
                         label: Text(''),
-                        onPressed: () => print('Login com Google'),
+                        onPressed: () => postGoogle(context),
                         icon: FaIcon(FontAwesomeIcons.google,
                             color: Colors.white),
                         style: ElevatedButton.styleFrom(
