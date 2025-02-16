@@ -1,4 +1,4 @@
-import 'package:pedidos_pecas/data/core/network/dio_network.dart';
+import 'package:ToLivre/data/core/network/dio_network.dart';
 
 class AuthNetwork {
   Future<bool> postLogin(String username, String password) async {

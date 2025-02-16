@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos_pecas/data/core/network/api_network.dart';
-import 'package:pedidos_pecas/data/feature/widget/components/list_services_components.dart';
+import 'package:ToLivre/data/feature/widget/components/list_services_components.dart';
 
 class HomePage extends StatefulWidget{
   _HomePage createState() => _HomePage();

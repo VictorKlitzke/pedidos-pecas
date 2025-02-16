@@ -1,5 +1,6 @@
+import 'package:ToLivre/data/feature/widget/components/app_colors_components.dart';
 import 'package:flutter/material.dart';
-import 'package:pedidos_pecas/data/feature/pages/navigation_page.dart';
+import 'package:ToLivre/data/feature/pages/navigation_page.dart';
 
 class BaseLayout extends StatelessWidget {
   final Widget body;
@@ -11,7 +12,7 @@ class BaseLayout extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text(''),
-        backgroundColor: const Color.fromARGB(255, 14, 21, 112),
+        backgroundColor: AppColorsComponents.primary,
         centerTitle: true,
         elevation: 0,
         titleTextStyle: const TextStyle(
@@ -21,7 +22,7 @@ class BaseLayout extends StatelessWidget {
         ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.settings), 
+            icon: const Icon(Icons.settings),
             color: Colors.white,
             onPressed: () {
               print('Ícone de configuração pressionado!');

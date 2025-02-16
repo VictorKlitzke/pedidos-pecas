@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:pedidos_pecas/data/core/network/dio_network.dart';
-import 'package:pedidos_pecas/data/core/routers/app_routers.dart';
+import 'package:ToLivre/data/core/network/dio_network.dart';
+import 'package:ToLivre/data/core/routers/app_routers.dart';
 
 void main() {
   configureDio();

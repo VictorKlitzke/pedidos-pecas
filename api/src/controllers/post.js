@@ -11,7 +11,8 @@ exports.postLogin = async (req, res) => {
   }
   try {
 
-    const [result] = pool.query("SELECT * FROM usuarios WHERE nome = ?", [username]);
+    console.log(username, password);
+    const [result] = await pool.query("SELECT * FROM usuarios WHERE nome = ?", [username]);
     if (!result || result.length === 0) {
       return res
         .status(404)

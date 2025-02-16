@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:pedidos_pecas/data/feature/layout/base_layout.dart';
-import 'package:pedidos_pecas/data/feature/pages/home_page.dart';
-import 'package:pedidos_pecas/data/feature/pages/login_page.dart';
+import 'package:ToLivre/data/feature/layout/base_layout.dart';
+import 'package:ToLivre/data/feature/pages/home_page.dart';
+import 'package:ToLivre/data/feature/pages/login_page.dart';
 
 final GoRouter appRouters = GoRouter(
   routes: [

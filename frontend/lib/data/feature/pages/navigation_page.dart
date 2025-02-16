@@ -1,4 +1,6 @@
+import 'package:ToLivre/data/feature/widget/components/app_colors_components.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 class NavigationPage extends StatefulWidget {
   @override
@@ -6,58 +8,81 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int _selectedIndex = 0;
-
-  void _onItemTapped(int index) {
-    setState(() {
-      _selectedIndex = index;
-    });
-  }
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Text(
-          "Página ${_selectedIndex + 1}",
-          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-        ),
-      ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black26,
-              blurRadius: 10,
-              spreadRadius: 2,
+      body: Column(
+        children: [
+          Expanded(
+            child: Center(
+              child: Text(
+                'Página ${_currentIndex + 1}',
+                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+              ),
             ),
-          ],
+          ),
+          Row(
+
+          ),
+        ],
+      ),
+      bottomNavigationBar: AnimatedContainer(
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeInOut,
+        decoration: BoxDecoration(
+          color: AppColorsComponents.primary,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(30),
+            topRight: Radius.circular(30),
+          ),
         ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          child: BottomNavigationBar(
-            currentIndex: _selectedIndex,
-            onTap: _onItemTapped,
-            backgroundColor: Colors.white,
-            selectedItemColor: Colors.blueAccent,
-            unselectedItemColor: Colors.grey,
-            showUnselectedLabels: true,
-            items: [
+        child: BottomNavigationBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.white54,
+          currentIndex: _currentIndex,
+          items: const [
+            Row(
               BottomNavigationBarItem(
                 icon: Icon(Icons.home),
-                label: "Início",
+                label: 'Home',
+              ),
+              BottomNavigationBarItem(
+                icon: Icon(Icons.add),
+                label: 'Adicionar',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.search),
-                label: "Buscar",
+                label: 'Pesquisar',
               ),
               BottomNavigationBarItem(
-                icon: Icon(Icons.person),
-                label: "Perfil",
+                icon: Icon(Icons.account_circle),
+                label: 'Perfil',
               ),
-            ],
-          ),
+            )
+          ],
+          onTap: (index) {
+            setState(() {
+              _currentIndex = index;
+            });
+            switch (index) {
+              case 0:
+                context.go('/homepage');
+                break;
+              case 1:
+                context.go('/profile');
+                break;
+              case 2:
+                context.go('/search');
+                break;
+              case 3:
+                context.go('/profile');
+                break;
+            }
+          },
         ),
       ),
     );
