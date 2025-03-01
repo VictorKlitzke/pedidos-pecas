@@ -1,35 +1,59 @@
-import 'package:ToLivre/data/feature/widget/components/app_colors_components.dart';
+import 'package:ToLivre/data/feature/views/sidebar_views.dart';
 import 'package:flutter/material.dart';
+import 'package:ToLivre/data/feature/widget/components/app_colors_components.dart';
 import 'package:ToLivre/data/feature/pages/navigation_page.dart';
 
 class BaseLayout extends StatelessWidget {
+  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
   final Widget body;
 
-  const BaseLayout({super.key, required this.body});
+  BaseLayout({super.key, required this.body});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: scaffoldKey,
       appBar: AppBar(
-        title: const Text(''),
         backgroundColor: AppColorsComponents.primary,
-        centerTitle: true,
         elevation: 0,
-        titleTextStyle: const TextStyle(
-          color: Colors.white,
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
+        leadingWidth: 100,
+        leading: Row(
+          children: [
+            IconButton(
+              icon: Icon(Icons.menu, color: Colors.white, size: 24),
+              onPressed: () {
+                scaffoldKey.currentState?.openDrawer();
+                return;
+              },
+            ),
+            IconButton(
+              icon: Icon(Icons.message, color: Colors.white, size: 24),
+              onPressed: () {
+                print('Ícone de mensagem pressionado!');
+              },
+            ),
+          ],
         ),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.settings),
+        title: Container(
+          width: MediaQuery.of(context).size.width * 0.9,
+          height: 40,
+          decoration: BoxDecoration(
             color: Colors.white,
-            onPressed: () {
-              print('Ícone de configuração pressionado!');
-            },
+            borderRadius: BorderRadius.circular(10),
           ),
-        ],
+          child: Center(
+            child: TextField(
+              decoration: InputDecoration(
+                hintText: 'Pesquisar...',
+                border: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(vertical: 12, horizontal: 15),
+                suffixIcon: Icon(Icons.search, color: Colors.grey),
+              ),
+            ),
+          ),
+        ),
       ),
+      drawer: SidebarViews(),
       backgroundColor: const Color(0xFFF3F7FB),
       resizeToAvoidBottomInset: true,
       body: Column(

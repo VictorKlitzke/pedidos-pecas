@@ -1,3 +1,4 @@
+import 'package:ToLivre/data/feature/pages/add_services.dart';
 import 'package:ToLivre/data/feature/widget/components/app_colors_components.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -8,56 +9,80 @@ class NavigationPage extends StatefulWidget {
 }
 
 class _NavigationPageState extends State<NavigationPage> {
-  int _currentIndex = 0;
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Center(
-        child: Text('Página $_currentIndex'),
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        backgroundColor: AppColorsComponents.primary,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.white54,
-        currentIndex: _currentIndex,
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
+    return Container(
+      color: AppColorsComponents.primary,
+      child: SafeArea(
+        child: BottomAppBar(
+          notchMargin: 8.0,
+          color: Colors.transparent,
+          elevation: 1,
+          child: Stack(
+            alignment: Alignment.center,
+            clipBehavior: Clip.none,
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: [
+                  IconButton(
+                    icon: Icon(
+                      Icons.home,
+                      color: AppColorsComponents.secondaryLight,
+                    ),
+                    onPressed: () {
+                      context.go('/homepage');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.search,
+                      color: AppColorsComponents.secondaryLight,
+                    ),
+                    onPressed: () {
+                      context.go('/search');
+                    },
+                  ),
+                  SizedBox(width: 40),
+                  IconButton(
+                    icon: Icon(
+                      Icons.list,
+                      color: AppColorsComponents.secondaryLight,
+                    ),
+                    onPressed: () {
+                      context.go('/list');
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(
+                      Icons.account_circle,
+                      color: AppColorsComponents.secondaryLight,
+                    ),
+                    onPressed: () {
+                      context.go('/profile');
+                    },
+                  ),
+                ],
+              ),
+              Positioned(
+                top: -25,
+                child: FloatingActionButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (context) {
+                        return AddServices();
+                    },
+                    );
+                  },
+                  child: Icon(Icons.add, color: AppColorsComponents.background,),
+                  backgroundColor: AppColorsComponents.primaryDark,
+                ),
+              ),
+            ],
           ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.add),
-            label: 'Adicionar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.search),
-            label: 'Buscar',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.account_circle),
-            label: 'Perfil',
-          ),
-        ],
-        onTap: (index) {
-          setState(() {
-            _currentIndex = index;
-          });
-          switch (index) {
-            case 0:
-              context.go('/homepage');
-              break;
-            case 1:
-              context.go('/add');
-              break;
-            case 2:
-              context.go('/search');
-              break;
-            case 3:
-              context.go('/profile');
-              break;
-          }
-        },
+        ),
       ),
     );
   }

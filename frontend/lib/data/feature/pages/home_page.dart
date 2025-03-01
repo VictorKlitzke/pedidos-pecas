@@ -13,19 +13,10 @@ class _HomePage extends State<HomePage> {
     super.initState();
   }
 
-  final List<String> services = [
-    'Troca de Óleo',
-    'Alinhamento e Balanceamento',
-    'Revisão Completa',
-    'Lavagem Automotiva',
-    'Polimento',
-  ];
-
-
 
   Widget build(BuildContext context) {
     return Scaffold(
-        body: ListServicesComponents(services: services),
+        body: ListServicesComponents(),
     );
   }
 }
